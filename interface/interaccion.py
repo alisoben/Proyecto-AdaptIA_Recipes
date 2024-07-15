@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import font as tkFont, messagebox
 from PIL import Image, ImageTk
-
 class InteraccionApp:
     def __init__(self, root):
         self.root = root
@@ -30,7 +29,7 @@ class InteraccionApp:
         self.title_frame.pack(pady=20)
 
         # Cargar y mostrar la imagen del logo
-        self.logo_path = "/Users/Amy/Downloads/IA_GEN_RECETAS/assets/logo.jpg"  # Ruta de la imagen del logo
+        self.logo_path = ".../assets/logo.jpg"  # Ruta de la imagen del logo
         self.load_logo(self.logo_path)
 
         self.logo_label.pack(side=tk.LEFT, padx=10)  # Ajusta el padding según sea necesario
