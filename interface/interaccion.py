@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import font as tkFont, messagebox
 from PIL import Image, ImageTk
+from core.api import GeminiAPI
+
 class InteraccionApp:
     def __init__(self, root):
         self.root = root
@@ -77,6 +79,9 @@ class InteraccionApp:
         self.menu_bar.add_cascade(label="Ayuda", menu=self.help_menu)
         self.help_menu.add_command(label="Instrucciones", command=self.show_about)
 
+        # Inicializar la API de Gemini
+        self.gemini_api = GeminiAPI()
+
     def load_logo(self, path):
         # Cargar la imagen del logo
         image = Image.open(path)
@@ -88,10 +93,17 @@ class InteraccionApp:
         plato = self.plato_entry.get()
         restricciones = self.restricciones_entry.get()
 
-        # Lógica para adaptar receta
-        receta = "Receta adaptada para {} con las siguientes restricciones: {}".format(plato, restricciones)
-        self.receta_text.delete(1.0, tk.END)
-        self.receta_text.insert(tk.END, receta)
+        #receta = "Receta adaptada para {} con las siguientes restricciones: {}".format(plato, restricciones)
+        # Llamar a la API para adaptar receta
+        try:
+            receta_adaptada = "Receta adaptada para {} con las siguientes restricciones: {}\n".format(plato, restricciones)
+            receta_adaptada = receta_adaptada + self.gemini_api.generar_receta(plato, restricciones)
+            self.receta_text.delete(1.0, tk.END)
+            self.receta_text.insert(tk.END, receta_adaptada)
+        except Exception as e:
+            self.receta_text.delete(1.0, tk.END)
+            self.receta_text.insert(tk.END, "Error al adaptar la receta!!!")
+            print(f"Error al adaptar la receta: {e}")
 
     def show_about(self):
         messagebox.showinfo("Instrucciones", "Adaptador de Recetas Personalizadas\n\n- Ingresar el platillo a adaptar\n- Ingresar las restricciones que considere")
