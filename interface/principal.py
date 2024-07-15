@@ -22,7 +22,7 @@ class PantallaInicial:
 
         self.root.configure(bg=self.background_color)
 
-        self.inicio_path = ".../assets/logo.jpg"  # Ruta correcta de la imagen del logo
+        self.inicio_path = os.path.join(os.path.dirname(__file__), '..', 'assets', 'logo.jpg')
         self.load_image(self.inicio_path)
 
         # Crear marcos para organizar la disposición
