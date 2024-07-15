@@ -30,7 +30,7 @@ class InteraccionApp:
         self.title_frame.pack(pady=20)
 
         # Cargar y mostrar la imagen del logo
-        self.logo_path = "/Users/Amy/Downloads/IA_GEN_RECETAS/imagenes/logo.jpg"  # Ruta de la imagen del logo
+        self.logo_path = "/Users/Amy/Downloads/IA_GEN_RECETAS/assets/logo.jpg"  # Ruta de la imagen del logo
         self.load_logo(self.logo_path)
 
         self.logo_label.pack(side=tk.LEFT, padx=10)  # Ajusta el padding según sea necesario
