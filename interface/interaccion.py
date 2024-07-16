@@ -55,19 +55,23 @@ class InteraccionApp:
         self.frame_input.pack(pady=20, side=tk.LEFT, fill=tk.Y)
 
         # Crear etiquetas y entradas para el nombre del platillo y las restricciones
-        self.plato_label = tk.Label(self.frame_input, text="Nombre del platillo:", bg=self.background_color, fg=self.text_color, font=self.custom_font_bold)
-        self.plato_label.grid(row=0, column=0, pady=5, padx=5, sticky='e')
-        self.plato_entry = ttk.Entry(self.frame_input, width=30, font=self.custom_font, style="TEntry")
-        self.plato_entry.grid(row=0, column=1, pady=5, padx=5, sticky='w')
+        self.plato_frame = tk.Frame(self.frame_input, bg=self.background_color)
+        self.plato_frame.grid(row=0, column=0, pady=5, padx=5, sticky='ew')
+        self.plato_label = tk.Label(self.plato_frame, text="Nombre del platillo:", bg=self.background_color, fg=self.text_color, font=self.custom_font_bold)
+        self.plato_label.pack(side=tk.LEFT)
+        self.plato_entry = ttk.Entry(self.plato_frame, width=50, font=self.custom_font, style="TEntry")
+        self.plato_entry.pack(side=tk.RIGHT, padx=(5, 0))
 
-        self.restricciones_label = tk.Label(self.frame_input, text="Restricciones:", bg=self.background_color, fg=self.text_color, font=self.custom_font_bold)
-        self.restricciones_label.grid(row=1, column=0, pady=5, padx=5, sticky='e')
-        self.restricciones_entry = ttk.Entry(self.frame_input, width=30, font=self.custom_font, style="TEntry")
-        self.restricciones_entry.grid(row=1, column=1, pady=5, padx=5, sticky='w')
+        self.restricciones_frame = tk.Frame(self.frame_input, bg=self.background_color)
+        self.restricciones_frame.grid(row=1, column=0, pady=5, padx=5, sticky='ew')
+        self.restricciones_label = tk.Label(self.restricciones_frame, text="Restricciones:", bg=self.background_color, fg=self.text_color, font=self.custom_font_bold)
+        self.restricciones_label.pack(side=tk.LEFT)
+        self.restricciones_entry = ttk.Entry(self.restricciones_frame, width=50, font=self.custom_font, style="TEntry")
+        self.restricciones_entry.pack(side=tk.RIGHT, padx=(5, 0))
 
         # Botón para adaptar receta
         self.adaptar_button = tk.Button(self.frame_input, text="Adaptar", command=self.adaptar_receta, font=self.custom_font, bg=self.primary_color, fg=self.entry_background_color, activebackground=self.active_button_color, activeforeground=self.entry_background_color, borderwidth=0, highlightthickness=0, padx=20, pady=10)
-        self.adaptar_button.grid(row=2, columnspan=2, pady=20)
+        self.adaptar_button.grid(row=0, column=1, rowspan=2, padx=20, pady=40, sticky='nsew')
 
         # Estilo para el botón redondeado
         self.adaptar_button.configure(borderwidth=0, relief='solid', highlightthickness=0)
