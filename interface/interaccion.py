@@ -4,6 +4,7 @@ from tkinter import font as tkFont, messagebox, ttk
 from PIL import Image, ImageTk
 from core.api import GeminiAPI
 import markdown2
+from tkhtmlview import HTMLLabel
 
 class InteraccionApp:
     def __init__(self, root):
@@ -43,16 +44,15 @@ class InteraccionApp:
 
         # Crear un marco para mostrar la receta adaptada
         self.frame_output = tk.Frame(root, bg=self.background_color)
-        self.frame_output.pack(pady=10, fill='both', expand=True)  # Aumentar tamaño del marco
+        self.frame_output.pack(pady=5, fill='both', expand=True)  # Aumentar tamaño del marco
 
-        # Texto para mostrar la receta adaptada en formato Markdown
-        self.receta_text = tk.Text(self.frame_output, height=20, width=120, bg=self.tertiary_color, fg=self.text_color, font=self.custom_font, wrap='word', borderwidth=2, relief='solid')
-        self.receta_text.pack(pady=5, padx=20, fill='both', expand=True)  # Expandir para llenar el marco
-        self.receta_text.config(state=tk.DISABLED)  # Hacer que el texto sea de solo lectura
+        # Texto para mostrar la receta adaptada
+        self.receta_label = HTMLLabel(self.frame_output, html="", bg=self.tertiary_color, fg=self.text_color, font=self.custom_font)
+        self.receta_label.pack(pady=0, padx=20, fill='both', expand=True)  # Expandir para llenar el marco
 
         # Crear un marco para los campos de entrada
         self.frame_input = tk.Frame(root, bg=self.background_color)
-        self.frame_input.pack(pady=20, side=tk.LEFT, fill=tk.Y)
+        self.frame_input.pack(pady=10, side=tk.LEFT, fill=tk.Y)
 
         # Crear etiquetas y entradas para el nombre del platillo y las restricciones
         self.plato_frame = tk.Frame(self.frame_input, bg=self.background_color)
@@ -124,16 +124,15 @@ class InteraccionApp:
             # Convertir el texto Markdown a HTML para mostrarlo en el widget Text
             html_content = markdown2.markdown(receta_adaptada)
             self.insert_text_with_animation(html_content)
-        except Exception as e:
-            self.insert_text_with_animation("Error al adaptar la receta!!!")
-            print(f"Error al adaptar la receta: {e}")
 
-    def insert_text_with_animation(self, content):
-        # Anima la inserción de texto en el widget Text
-        self.receta_text.config(state=tk.NORMAL)
-        self.receta_text.delete(1.0, tk.END)
-        self.receta_text.insert(tk.END, content)
-        self.receta_text.config(state=tk.DISABLED)
+            # Convertir el texto Markdown a HTML para mostrarlo en el widget HTMLLabel
+            html_content = markdown2.markdown(receta_adaptada)
+
+            self.receta_label.set_html(html_content)
+
+        except Exception as e:
+            self.receta_label.set_html("<p>Error al adaptar la receta!!!</p>")
+            print(f"Error al adaptar la receta: {e}")
 
     def show_about(self):
         messagebox.showinfo("Instrucciones", "Adaptador de Recetas Personalizadas\n\n- Ingresar el platillo a adaptar\n- Ingresar las restricciones que considere")
