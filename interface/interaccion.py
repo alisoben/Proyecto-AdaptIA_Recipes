@@ -110,16 +110,20 @@ class InteraccionApp:
     def adaptar_receta(self):
         plato = self.plato_entry.get()
         restricciones = self.restricciones_entry.get()
-
+        # Validar que los campos no estén vacíos
+        if not plato.strip():
+            self.insert_text_with_animation("Error: El campo 'Plato' no puede estar vacío.")
+            return
+        if not restricciones.strip():
+            self.insert_text_with_animation("Error: El campo 'Restricciones' no puede estar vacío. Si no tiene restricciones, escriba 'Ninguna'.")
+            return
         # Llamar a la API para adaptar receta
         try:
             receta_adaptada = "Receta adaptada para {} con las siguientes restricciones: {}\n".format(plato, restricciones)
             receta_adaptada += self.gemini_api.generar_receta(plato, restricciones)
-
             # Convertir el texto Markdown a HTML para mostrarlo en el widget Text
             html_content = markdown2.markdown(receta_adaptada)
             self.insert_text_with_animation(html_content)
-
         except Exception as e:
             self.insert_text_with_animation("Error al adaptar la receta!!!")
             print(f"Error al adaptar la receta: {e}")
