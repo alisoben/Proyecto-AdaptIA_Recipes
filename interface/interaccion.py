@@ -2,7 +2,7 @@ import os
 import tkinter as tk
 from tkinter import font as tkFont, messagebox, ttk
 from PIL import Image, ImageTk
-from core.api import GeminiAPI
+from core.models import RecetaGenerator
 import markdown2
 from tkhtmlview import HTMLLabel
 
@@ -97,7 +97,7 @@ class InteraccionApp:
         self.help_menu.add_command(label="Instrucciones", command=self.show_about)
         self.menu_bar.add_cascade(label="Ayuda", menu=self.help_menu)
         # Inicializar la API de Gemini
-        self.gemini_api = GeminiAPI()
+        self.recetaGenerator = RecetaGenerator()
         
         
     def center_window(self, width, height):
@@ -130,18 +130,14 @@ class InteraccionApp:
             self.insert_text_with_animation("Error: El campo 'Restricciones' no puede estar vacío. Si no tiene restricciones, escriba 'Ninguna'.")
             return
         # Llamar a la API para adaptar receta
-        try:
-            receta_adaptada = "<h2>Receta adaptada para {} con las siguientes restricciones: {}</h2><br>".format(plato, restricciones)
-            receta_adaptada += self.gemini_api.generar_receta(plato, restricciones)
+        receta_adaptada = "<h2>Receta adaptada para {} con las siguientes restricciones: {}</h2><br>".format(plato, restricciones)
+        receta_adaptada += self.recetaGenerator.generar_receta(plato, restricciones)
 
-            # Convertir el texto Markdown a HTML para mostrarlo en el widget HTMLLabel
-            html_content = markdown2.markdown(receta_adaptada)
+        # Convertir el texto Markdown a HTML para mostrarlo en el widget HTMLLabel
+        html_content = markdown2.markdown(receta_adaptada)
 
-            self.receta_label.set_html(html_content)
+        self.receta_label.set_html(html_content)
 
-        except Exception as e:
-            self.receta_label.set_html("<p>Error al adaptar la receta!!!</p>")
-            print(f"Error al adaptar la receta: {e}")
 
     def show_about(self):
         messagebox.showinfo("Instrucciones", "Adaptador de Recetas Personalizadas\n\n- Ingresar el platillo a adaptar\n- Ingresar las restricciones que considere")
