@@ -37,7 +37,7 @@ class PantallaInicial:
 
         # Etiqueta para mostrar la imagen
         self.image_label = tk.Label(self.top_frame, image=self.image, bg=self.background_color)
-        self.image_label.pack(pady=20)
+        self.image_label.pack(pady=(60, 20))
 
         # Etiquetas para el texto
         self.label1 = tk.Label(self.middle_frame, text="Recetas hechas a medida", font=("Arial", 36, "bold"), bg=self.background_color, fg=self.primary_color)
@@ -71,7 +71,7 @@ class PantallaInicial:
     def load_image(self, path):
         # Cargar la imagen y redimensionar para que se ajuste
         image = Image.open(path)
-        image = image.resize((100, 100), Image.LANCZOS)  # Ajustar el tamaño de la imagen
+        image = image.resize((150, 150), Image.LANCZOS)  # Ajustar el tamaño de la imagen
         self.image = ImageTk.PhotoImage(image)
 
     def abrir_interaccion(self):
