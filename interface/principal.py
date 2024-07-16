@@ -8,7 +8,7 @@ class PantallaInicial:
     def __init__(self, root):
         self.root = root
         self.root.title("Pantalla Inicial")
-        self.root.geometry("1080x720")  # Ajusta el tamaño según tus necesidades
+        self.center_window(1080, 720)  # Ajusta el tamaño según tus necesidades
 
         # Nueva paleta de colores
         self.primary_color = '#17252A'  # Color muy oscuro
@@ -55,6 +55,18 @@ class PantallaInicial:
         # Botón para iniciar la interfaz de interacción
         self.button = tk.Button(self.bottom_frame, text="Iniciar", command=self.abrir_interaccion, font=("Arial", 20), bg=self.secondary_color, fg=self.entry_background_color, activebackground=self.active_button_color, activeforeground=self.entry_background_color)
         self.button.pack(pady=50, expand=True, ipady=20, ipadx=40)  # Hacer el botón más grande
+
+    def center_window(self, width, height):
+        # Obtener el tamaño de la pantalla
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        # Calcular las coordenadas x e y para centrar la ventana
+        x = (screen_width - width) // 2
+        y = (screen_height - height) // 2
+
+        # Establecer la geometría de la ventana
+        self.root.geometry(f"{width}x{height}+{x}+{y}")
 
     def load_image(self, path):
         # Cargar la imagen y redimensionar para que se ajuste

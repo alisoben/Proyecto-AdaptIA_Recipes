@@ -10,7 +10,7 @@ class InteraccionApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Recetas Personalizadas")
-        self.root.geometry("1080x720")
+        self.center_window(1080, 720)
 
         self.primary_color = '#00796B'  # Verde oscuro
         self.secondary_color = '#4DB6AC'  # Verde medio
@@ -96,9 +96,22 @@ class InteraccionApp:
         self.help_menu = tk.Menu(self.menu_bar, tearoff=0, bg=self.primary_color, fg=self.background_color)
         self.help_menu.add_command(label="Instrucciones", command=self.show_about)
         self.menu_bar.add_cascade(label="Ayuda", menu=self.help_menu)
-
         # Inicializar la API de Gemini
         self.gemini_api = GeminiAPI()
+        
+        
+    def center_window(self, width, height):
+        # Obtener el tamaño de la pantalla
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        # Calcular las coordenadas x e y para centrar la ventana
+        x = (screen_width - width) // 2
+        y = (screen_height - height) // 2
+        # Ajustar la coordenada y para que la ventana se coloque más arriba
+        y -= 50
+        # Establecer la geometría de la ventana
+        self.root.geometry(f"{width}x{height}+{x}+{y}")
 
     def load_logo(self, path):
         # Cargar la imagen del logo
@@ -110,10 +123,15 @@ class InteraccionApp:
     def adaptar_receta(self):
         plato = self.plato_entry.get()
         restricciones = self.restricciones_entry.get()
-
+        if not plato.strip():
+            self.insert_text_with_animation("Error: El campo 'Plato' no puede estar vacío.")
+            return
+        if not restricciones.strip():
+            self.insert_text_with_animation("Error: El campo 'Restricciones' no puede estar vacío. Si no tiene restricciones, escriba 'Ninguna'.")
+            return
         # Llamar a la API para adaptar receta
         try:
-            receta_adaptada = "Receta adaptada para {} con las siguientes restricciones: {}\n".format(plato, restricciones)
+            receta_adaptada = "<h2>Receta adaptada para {} con las siguientes restricciones: {}</h2><br>".format(plato, restricciones)
             receta_adaptada += self.gemini_api.generar_receta(plato, restricciones)
 
             # Convertir el texto Markdown a HTML para mostrarlo en el widget HTMLLabel
