@@ -1,5 +1,6 @@
-from core.config import config
 import google.generativeai as genai
+import os
+from dotenv import load_dotenv
 
 class GeminiAPI:
     _instance = None
@@ -12,9 +13,11 @@ class GeminiAPI:
     
     def initialize(self):
         if not hasattr(self, 'initialized'):
-            if not config.API_KEY:
+            load_dotenv()
+            key= os.getenv('API_KEY')
+            if not key:
                 raise ValueError("API Key está faltando en la configuración.")
-            genai.configure(api_key=config.API_KEY)
+            genai.configure(api_key=key)
             self.initialized = True
             
     def generate_answer(self, prompt):
