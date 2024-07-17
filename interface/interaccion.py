@@ -132,7 +132,7 @@ class InteraccionApp:
         # Llamar a la API para adaptar receta
         receta_adaptada = "<h2>Receta adaptada para {} con las siguientes restricciones: {}</h2><br>".format(plato, restricciones)
         receta_adaptada += self.recetaGenerator.generar_receta(plato, restricciones)
-
+        self.receta = receta_adaptada
         # Convertir el texto Markdown a HTML para mostrarlo en el widget HTMLLabel
         html_content = markdown2.markdown(receta_adaptada)
 
