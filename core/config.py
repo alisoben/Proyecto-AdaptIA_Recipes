@@ -13,6 +13,7 @@ class Config:
             - 2 tomates medianos, cortados en gajos
             - 1 pimiento (rojo o amarillo), cortado en tiras
             - 1 taza de quinua cocida (opcional)
+            Además, proporciona un análisis nutricional detallado en items al final de la receta respecto al platillo generado, incluyendo calorías, proteínas, grasas y carbohidratos.
         """
 
 config = Config()
